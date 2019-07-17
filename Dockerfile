@@ -133,18 +133,18 @@ RUN export PPHPV='7.3.2' \
 --enable-cli \
 --enable-cgi \
 --enable-fpm \
-	&& make \
-	&& make install \
-	&& mv $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf.default $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf \
-	&& echo -e "\nenv[ORACLE_HOME]=/opt/oracle/instantclient_12_2" >> $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf \
-	&& mv $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf.default $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf \
-	&& mv /opt/php.ini-production.ini $PREFIX/php-$PPHPV/php.ini \
-	&& echo -e "[OCI8]\nextension=oci8.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-	&& echo -e "[PDO_OCI]\nextension=pdo_oci.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-	&& echo -e "[PDO_FIREBIRD]\nextension=pdo_firebird.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-	&& echo -e "[PGSQL]\nextension=pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-	&& echo -e "[PDO_PGSQL]\nextension=pdo_pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-	&& echo '#!/bin/bash' > /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
+    && make \
+    && make install \
+    && mv $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf.default $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf \
+    && echo -e "\nenv[ORACLE_HOME]=/opt/oracle/instantclient_12_2" >> $PREFIX/php-$PPHPV$PREFIX/php-fpm.d/www.conf \
+    && mv $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf.default $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf \
+    && mv /opt/php.ini-production.ini $PREFIX/php-$PPHPV/php.ini \
+    && echo -e "[OCI8]\nextension=oci8.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "[PDO_OCI]\nextension=pdo_oci.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "[PDO_FIREBIRD]\nextension=pdo_firebird.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "[PGSQL]\nextension=pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "[PDO_PGSQL]\nextension=pdo_pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo '#!/bin/bash' > /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && echo "PHPRC=$PREFIX/php-$PPHPV/php.ini" >> /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && echo "PHP_CGI=$PREFIX/php-$PPHPV/bin/php-cgi" >> /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && echo "PHP_FCGI_CHILDREN=4" >> /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
@@ -157,15 +157,16 @@ RUN export PPHPV='7.3.2' \
     && chown apache:apache /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && cat /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && $PREFIX/php-$PPHPV/bin/pecl install mongodb \
-	&& yum clean all \
-	&& rm -rf /opt/*.zip \
-	&& rm -rf /tmp/* \
-	&& rm -rf /opt/php-$PPHPV /opt/php-$PPHPV.tar.gz  \
-	&& rm /etc/localtime \
-	&& ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-	&& ln -s $PREFIX/php-$PPHPV/bin/php /usr/local/bin/php \
-	&& /usr/local/bin/php --version \
-	&& date
+    && echo -e "[MONGODB]\nextension=mongodb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && yum clean all \
+    && rm -rf /opt/*.zip \
+    && rm -rf /tmp/* \
+    && rm -rf /opt/php-$PPHPV /opt/php-$PPHPV.tar.gz  \
+    && rm /etc/localtime \
+    && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
+    && ln -s $PREFIX/php-$PPHPV/bin/php /usr/local/bin/php \
+    && /usr/local/bin/php --version \
+    && date
 
 ADD files/nginx.conf /etc/nginx/nginx.conf
 ADD files/index.php /usr/share/nginx/html
