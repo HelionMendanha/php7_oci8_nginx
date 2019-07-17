@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20190212"
+    build-date="20190717"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -156,6 +156,7 @@ RUN export PPHPV='7.3.2' \
     && chmod -R 744 /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && chown apache:apache /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && cat /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
+    && $PREFIX/php-$PPHPV/bin/pecl install mongodb \
 	&& yum clean all \
 	&& rm -rf /opt/*.zip \
 	&& rm -rf /tmp/* \
