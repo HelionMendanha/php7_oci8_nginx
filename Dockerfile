@@ -20,6 +20,9 @@ RUN export PPHPV='7.3.2' \
     && rm -rf /opt/*.zip \
     && rm -rf /opt/*.tgz \
     && rm -rf /tmp/* \
+    && /etc/php-7.3.2/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && /etc/php-7.3.2/bin/php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf composer-setup.php \
     && date
 
 ENV ORACLE_HOME /opt/oracle/instantclient_12_2
