@@ -9,7 +9,7 @@ LABEL name="Nginx + PHP 7.3.11 + pdo_oci no CentOS" \
 	
 RUN export PPHPV='7.3.2' \
     && export PREFIX='/etc' \
-    && yum -y install tzdata ca-certificates \
+    && yum -y install tzdata ca-certificates nginx npm \
     && rm -rf /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
     && /etc/php-$PPHPV/bin/pecl upgrade timezonedb \
