@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.3.11 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20191113"
+    build-date="20200303"
 	
 RUN export PPHPV='7.3.2' \
     && export PREFIX='/etc' \
@@ -16,6 +16,9 @@ RUN export PPHPV='7.3.2' \
     && echo -e "[TIMEZONEDB]\nextension=timezonedb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
     && /etc/php-$PPHPV/bin/php --version \
+    && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
+    &&  yum remove -y nodejs npm \
+    && yum install -y nodejs \
     && yum clean all \
     && rm -rf /opt/*.zip \
     && rm -rf /opt/*.tgz \
