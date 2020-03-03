@@ -16,6 +16,8 @@ RUN export PPHPV='7.3.2' \
     && echo -e "[TIMEZONEDB]\nextension=timezonedb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
     && /etc/php-$PPHPV/bin/php --version \
+    && sh -c "echo /opt/oracle/instantclient_12_2 > /etc/ld.so.conf.d/oracle-instantclient.conf" \
+    && ldconfig \
     && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     &&  yum remove -y nodejs npm \
     && yum install -y nodejs \
