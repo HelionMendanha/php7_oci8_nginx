@@ -1,11 +1,11 @@
-FROM centos:7.6.1810
+FROM centos:7.7.1908
 
 MAINTAINER helion@mendanha.com.br
 
 LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20190717"
+    build-date="20200501"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -19,6 +19,7 @@ ADD files/php.ini-production.ini /opt
 RUN export PPHPV='7.3.2' \
 	&& export PREFIX='/etc' \
 	&& yum -y install epel-release \
+	&& yum -y install tzdata ca-certificates nginx \
 	&& yum -y upgrade \
 	&& yum -y update \
 	&& yum -y groupinstall "Development Tools" \
@@ -140,10 +141,10 @@ RUN export PPHPV='7.3.2' \
     && mv $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf.default $PREFIX/php-$PPHPV$PREFIX/php-fpm.conf \
     && mv /opt/php.ini-production.ini $PREFIX/php-$PPHPV/php.ini \
     && echo -e "[OCI8]\nextension=oci8.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-    && echo -e "[PDO_OCI]\nextension=pdo_oci.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-    && echo -e "[PDO_FIREBIRD]\nextension=pdo_firebird.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-    && echo -e "[PGSQL]\nextension=pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-    && echo -e "[PDO_PGSQL]\nextension=pdo_pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "\n[PDO_OCI]\nextension=pdo_oci.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "\n[PDO_FIREBIRD]\nextension=pdo_firebird.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "\n[PGSQL]\nextension=pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "\n[PDO_PGSQL]\nextension=pdo_pgsql.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && echo '#!/bin/bash' > /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && echo "PHPRC=$PREFIX/php-$PPHPV/php.ini" >> /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && echo "PHP_CGI=$PREFIX/php-$PPHPV/bin/php-cgi" >> /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
@@ -157,7 +158,15 @@ RUN export PPHPV='7.3.2' \
     && chown apache:apache /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && cat /var/www/cgi-bin/php${PPHPV//\./}.fcgi \
     && $PREFIX/php-$PPHPV/bin/pecl install mongodb \
-    && echo -e "[MONGODB]\nextension=mongodb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && echo -e "\n[MONGODB]\nextension=mongodb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+    && sh -c "echo /opt/oracle/instantclient_12_2 > /etc/ld.so.conf.d/oracle-instantclient.conf" \
+    && ldconfig \
+    && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
+    && yum remove -y nodejs npm \
+    && yum install -y nodejs \
+    && /etc/php-$PPHPV/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && /etc/php-$PPHPV/bin/php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm -rf composer-setup.php \
     && yum clean all \
     && rm -rf /opt/*.zip \
     && rm -rf /tmp/* \
@@ -165,6 +174,8 @@ RUN export PPHPV='7.3.2' \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
     && ln -s $PREFIX/php-$PPHPV/bin/php /usr/local/bin/php \
+    && /etc/php-$PPHPV/bin/pecl upgrade timezonedb \
+    && echo -e "\n[TIMEZONEDB]\nextension=timezonedb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
     && date
 
@@ -181,7 +192,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.2 . &
+#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.2_2020 . &
 #docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.2
 #docker exec -it AppPhp7 bash
 #docker run --rm -it centos:7.6.1810 bash
