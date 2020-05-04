@@ -11,7 +11,6 @@ ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
 ADD files/php-7.3.2.tar.gz /opt
 ADD files/php.ini-production.ini /opt
-#ADD files/php_extension.tar.gz /opt
 
 # Em caso de instalacao
 # tar vxf /opt/php-7.3.2.tar.gz -C /opt/
@@ -20,8 +19,8 @@ ADD files/php.ini-production.ini /opt
 RUN export PPHPV='7.3.2' \
 	&& export PREFIX='/etc' \
 	&& yum -y install epel-release \
-#        && yum -y --exclude=glibc\* upgrade \
-#        && yum -y --exclude=glibc\* update \
+        && yum -y update \
+        && yum -y upgrade \
 	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
 		libxml2-devel \
@@ -177,8 +176,6 @@ RUN export PPHPV='7.3.2' \
     && ln -s $PREFIX/php-$PPHPV/bin/php /usr/local/bin/php \
     && /etc/php-$PPHPV/bin/pecl upgrade timezonedb \
     && echo -e "\n[TIMEZONEDB]\nextension=timezonedb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
-#    && mv /opt/*.so /etc/php-7.3.2/lib/php/extensions/no-debug-non-zts-20180731 \
-#    && echo -e "\n[PDFLIB]\nextension=php_pdflib.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
     && ping google.com -c 4 \
     && date
