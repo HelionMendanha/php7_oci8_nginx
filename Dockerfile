@@ -20,13 +20,15 @@ ADD files/php_extension.tar.gz /opt
 RUN export PPHPV='7.3.2' \
 	&& export PREFIX='/etc' \
 	&& yum -y install epel-release \
-	&& yum -y install tzdata ca-certificates nginx \
+        && yum -y --exclude=glibc\* upgrade \
+        && yum -y --exclude=glibc\* update \
 	&& yum -y upgrade \
 	&& yum -y update \
 	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
 		libxml2-devel \
 		bison \
+                tzdata \
 		bison-devel \
 		ca-certificates \
 		firebird-devel \
