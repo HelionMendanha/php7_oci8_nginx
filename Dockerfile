@@ -22,8 +22,6 @@ RUN export PPHPV='7.3.2' \
 	&& yum -y install epel-release \
         && yum -y --exclude=glibc\* upgrade \
         && yum -y --exclude=glibc\* update \
-	&& yum -y upgrade \
-	&& yum -y update \
 	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
 		libxml2-devel \
