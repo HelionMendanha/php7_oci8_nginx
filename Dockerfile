@@ -1,4 +1,4 @@
-FROM centos:7.6.1810
+FROM centos:7.7.1908
 
 MAINTAINER helion@mendanha.com.br
 
@@ -180,6 +180,7 @@ RUN export PPHPV='7.3.2' \
 #    && mv /opt/*.so /etc/php-7.3.2/lib/php/extensions/no-debug-non-zts-20180731 \
 #    && echo -e "\n[PDFLIB]\nextension=php_pdflib.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
+    && ping google.com -c 4 \
     && date
 
 ADD files/nginx.conf /etc/nginx/nginx.conf
