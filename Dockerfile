@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20200504"
+    build-date="20200812"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -25,7 +25,7 @@ RUN export PPHPV='7.3.2' \
 	&& yum -y install \
 		libxml2-devel \
 		bison \
-                tzdata \
+		tzdata \
 		bison-devel \
 		ca-certificates \
 		firebird-devel \
@@ -161,6 +161,16 @@ RUN export PPHPV='7.3.2' \
     && echo -e "\n[MONGODB]\nextension=mongodb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && sh -c "echo /opt/oracle/instantclient_12_2 > /etc/ld.so.conf.d/oracle-instantclient.conf" \
     && ldconfig \
+    && echo 'net.ipv4.ip_local_port_range = 12000 65535' >> /etc/sysctl.conf \
+    && echo 'fs.file-max = 1048576' >> /etc/sysctl.conf \
+    && mkdir -p /etc/security \
+    && mkdir -p /var/cache/nginx \
+    && chmod -R 777 /var/cache/nginx \
+    && echo '*                soft    nofile          1048576' >> /etc/security/limits.conf \
+    && echo '*                hard    nofile          1048576' >> /etc/security/limits.conf \
+    && echo 'root             soft    nofile          1048576' >> /etc/security/limits.conf \
+    && echo 'root             hard    nofile          1048576' >> /etc/security/limits.conf \
+    && echo '+1M Connections' \
     && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     && yum remove -y nodejs npm \
     && yum install -y nodejs \
@@ -179,12 +189,21 @@ RUN export PPHPV='7.3.2' \
     && /usr/local/bin/php --version \
     && ping google.com -c 4 \
     && date
-
+	
 ADD files/nginx.conf /etc/nginx/nginx.conf
 ADD files/index.php /usr/share/nginx/html
 ADD files/supervisord.conf /etc/supervisord.conf
 
 ENV ORACLE_HOME /opt/oracle/instantclient_12_2
+ENV BACKEND1 10.62.0.2:7101
+ENV BACKEND2 10.62.0.2:7102
+ENV BACKEND3 10.62.0.2:7103
+ENV BACKEND4 10.62.0.2:7104
+ENV BACKEND5 10.62.0.2:7105
+ENV BACKEND6 10.62.0.2:7106
+ENV BACKEND7 10.62.0.2:7107
+ENV BACKEND8 10.62.0.2:7108
+ENV BACKEND9 10.62.0.2:7109
 
 WORKDIR /var/www/html
 
