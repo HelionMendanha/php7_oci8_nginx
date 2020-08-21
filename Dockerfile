@@ -10,6 +10,8 @@ LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
 ADD files/php-7.3.2.tar.gz /opt
+ADD files/tideways-php-latest.tar.gz /opt
+ADD files/tideways-daemon-latest.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Em caso de instalacao
@@ -187,6 +189,11 @@ RUN export PPHPV='7.3.2' \
     && /etc/php-$PPHPV/bin/pecl upgrade timezonedb \
     && echo -e "\n[TIMEZONEDB]\nextension=timezonedb.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && /usr/local/bin/php --version \
+    && cd /opt/tideways-5.2.4 \
+    && bash install.sh \ 
+    && cd /opt/tideways-daemon_1.6.16 \
+    && bash install.sh \
+    && echo -e "\n[TIDEWAYS]\nextension=tideways.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && ping google.com -c 4 \
     && date
 	
