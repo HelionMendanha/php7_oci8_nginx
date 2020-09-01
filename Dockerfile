@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20200812"
+    build-date="20200902"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -193,7 +193,7 @@ RUN export PPHPV='7.3.2' \
     && bash install.sh \ 
     && cd /opt/tideways-daemon_1.6.16 \
     && bash install.sh \
-    && echo -e "\n[TIDEWAYS]\nextension=tideways.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
+#    && echo -e "\n[TIDEWAYS]\nextension=tideways.so" >> $PREFIX/php-$PPHPV/php.d/extension.ini \
     && ping google.com -c 4 \
     && date
 	
