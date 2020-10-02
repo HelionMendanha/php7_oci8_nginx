@@ -2,23 +2,23 @@ FROM centos:7.7.1908
 
 MAINTAINER helion@mendanha.com.br
 
-LABEL name="Nginx + PHP 7.3.2 + pdo_oci no CentOS" \
+LABEL name="Nginx + PHP 7.4.11 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20200902"
+    build-date="20201002"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
-ADD files/php-7.3.2.tar.gz /opt
+ADD files/php-7.4.11.tar.gz /opt
 ADD files/tideways-php-latest.tar.gz /opt
 ADD files/tideways-daemon-latest.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Em caso de instalacao
-# tar vxf /opt/php-7.3.2.tar.gz -C /opt/
+# tar vxf /opt/php-7.4.11.tar.gz -C /opt/
 
 # Pacotes
-RUN export PPHPV='7.3.2' \
+RUN export PPHPV='7.4.11' \
 	&& export PREFIX='/etc' \
 	&& yum -y install epel-release \
         && yum -y update \
