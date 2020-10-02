@@ -29,6 +29,7 @@ RUN export PPHPV='7.4.11' \
 		bison \
 		tzdata \
 		bison-devel \
+		sqlite-devel \
 		ca-certificates \
 		firebird-devel \
 		libpqxx-devel \
