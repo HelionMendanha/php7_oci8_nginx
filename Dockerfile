@@ -87,7 +87,7 @@ RUN export PPHPV='7.4.11' \
 --with-config-file-path=$PREFIX/php-$PPHPV \
 --with-config-file-scan-dir=$PREFIX/php-$PPHPV/php.d \
 --with-pdo-mysql=shared \
---with-pdo-sqlite=shared \
+--with-pdo-sqlite \
 --with-pdo-pgsql=shared,/usr/lib64/pgsql \
 --with-pdo-firebird=shared,/usr/lib64/firebird \
 --with-pdo-oci=shared,instantclient,/opt/oracle/instantclient_12_2 \
