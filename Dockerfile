@@ -1,11 +1,11 @@
-FROM centos:7.7.1908
+FROM centos:7.8.2003
 
 MAINTAINER helion@mendanha.com.br
 
 LABEL name="Nginx + PHP 7.4.11 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20201002"
+    build-date="20201003"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -36,6 +36,7 @@ RUN export PPHPV='7.4.11' \
 		openssl-devel \
 		bzip2-devel \
 		libzip-devel \
+		libonig-dev \
 		unzip \
 		curl-devel \
 		zlib-devel \
@@ -220,7 +221,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.2_2020 . &
-#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.2
+#nohup docker build -t helionmendanha/php7_oci8_nginx:7.4.11 . &
+#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.4.11
 #docker exec -it AppPhp7 bash
-#docker run --rm -it centos:7.6.1810 bash
+#docker run --rm -it centos:7.8.2003 bash
