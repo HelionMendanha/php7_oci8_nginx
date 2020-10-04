@@ -26,6 +26,8 @@ RUN export PPHPV='7.4.11' \
 	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
 		libxml2-devel \
+		http://rpms.remirepo.net/enterprise/7/remi/x86_64/oniguruma5php-6.9.5+rev1-2.el7.remi.x86_64.rpm \
+		http://rpms.remirepo.net/enterprise/7/remi/x86_64/oniguruma5php-devel-6.9.5+rev1-1.el7.remi.x86_64.rpm \
 		bison \
 		tzdata \
 		bison-devel \
