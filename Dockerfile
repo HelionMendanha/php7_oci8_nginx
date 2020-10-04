@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.4.11 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20201003"
+    build-date="20201004"
 	
 ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
 ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
@@ -20,14 +20,13 @@ ADD files/php.ini-production.ini /opt
 # Pacotes
 RUN export PPHPV='7.4.11' \
 	&& export PREFIX='/etc' \
-	&& yum -y install epel-release \
+	&& yum -y install epel-release sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
         && yum -y update \
         && yum -y upgrade \
 	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
 		libxml2-devel \
-		http://rpms.remirepo.net/enterprise/7/remi/x86_64/oniguruma5php-6.9.5+rev1-2.el7.remi.x86_64.rpm \
-		http://rpms.remirepo.net/enterprise/7/remi/x86_64/oniguruma5php-devel-6.9.5+rev1-1.el7.remi.x86_64.rpm \
+		oniguruma-devel \
 		bison \
 		tzdata \
 		bison-devel \
