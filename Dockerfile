@@ -2,13 +2,15 @@ FROM centos:7.8.2003
 
 MAINTAINER helion@mendanha.com.br
 
-LABEL name="Nginx + PHP 7.3.23 + pdo_oci no CentOS" \
+LABEL name="Nginx + PHP 7.3.24 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
     build-date="20201006"
 	
-ADD files/instantclient-basic-linux.x64-12.2.0.1.0.zip /opt
-ADD files/instantclient-sdk-linux.x64-12.2.0.1.0.zip /opt
+ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
+ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
+ADD files/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip /opt
+
 ADD files/php-7.3.23.tar.gz /opt
 ADD files/tideways-php-latest.tar.gz /opt
 ADD files/tideways-daemon-latest.tar.gz /opt
@@ -20,68 +22,28 @@ ADD files/php.ini-production.ini /opt
 # Pacotes
 RUN export PPHPV='7.3.23' \
 	&& export PREFIX='/etc' \
-	&& yum -y install epel-release sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
+	&& yum -y install epel-release install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
         && yum -y update \
         && yum -y upgrade \
-	&& yum -y groupinstall "Development Tools" \
 	&& yum -y install \
-		libxml2-devel \
-		oniguruma-devel \
-		bison \
-		tzdata \
-		bison-devel \
-		sqlite-devel \
 		ca-certificates \
-		firebird-devel \
-		libpqxx-devel \
-		openssl-devel \
-		bzip2-devel \
-		libzip-devel \
-		libonig-dev \
-		unzip \
-		curl-devel \
-		zlib-devel \
-		libtool \
-		libtool-ltdl-devel \
-		libtidy-devel \
-		libmcrypt-devel \
-		libjpeg-devel \
-		libpng-devel \
-		gd-devel \
-		apr-devel \
-		mysql-devel \
-		mhash-devel \
-		aspell-devel \
-		freetype-devel \
-		pam-devel \
 		libaio \
-		expat-devel \
-		libxslt-devel \
-		libc-client-devel \
-		libX11-devel \
-		libicu-devel \
-		t1lib-devel \
-		libvpx-devel \
-		readline-devel \
-		ncurses-devel \
-		gmp-devel \
-		re2c \
 		nginx \
-		httpd \
-		mod_fcgid \
-		mod_ssl \
-		php \
-		php-cli \
-		vim \
-		gcc \
+		unzip \
 		supervisor \
-	&& mkdir -p /opt/oracle/instantclient_12_2 \
-	&& mkdir -p $PREFIX/php-$PPHPV \
-	&& unzip /opt/instantclient-basic-linux.x64-12.2.0.1.0.zip -d /opt/oracle \
-	&& unzip /opt/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /opt/oracle \
-	&& ln -s /opt/oracle/instantclient_12_2/libclntsh.so.12.1 /opt/oracle/instantclient_12_2/libclntsh.so \
-	&& ln -s /opt/oracle/instantclient_12_2/libclntshcore.so.12.1 /opt/oracle/instantclient_12_2/libclntshcore.so \
-	&& ln -s /opt/oracle/instantclient_12_2/libocci.so.12.1 /opt/oracle/instantclient_12_2/libocci.so \
+	&& yum install php-fpm \
+		php-gd \
+		php-json \
+		php-mbstring \
+		php-mysqlnd \
+		php-xml \
+		php-xmlrpc \
+	&& mkdir -p /opt/oracle/instantclient_19_6 \
+	&& unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+	&& unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+	&& unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+	&& echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
+	&& ldconfig \
 	&& mkdir -p $PREFIX/php-$PPHPV/php.d \
 	&& cd /opt/php-$PPHPV \
 	&& export ORACLE_HOME=/opt/oracle/instantclient_12_2 \
