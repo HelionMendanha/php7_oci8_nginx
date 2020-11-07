@@ -5,7 +5,7 @@ MAINTAINER helion@mendanha.com.br
 LABEL name="Nginx + PHP 7.3.24 + pdo_oci no CentOS" \
     vendor="CentOS" \
     license="GPLv2" \
-    build-date="20201006"
+    build-date="20201109"
 	
 ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
@@ -17,10 +17,10 @@ ADD files/php.ini-production.ini /opt
 
 # Pacotes
 RUN export PPHPV='7.3.24' \
-	&& export PREFIX='/etc' \
-	&& yum -y install epel-release install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
-        && yum -y update \
-        && yum -y upgrade \
+    && export PREFIX='/etc' \
+    && yum -y install epel-release install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
+    && yum -y update \
+    && yum -y upgrade \
 	&& yum -y install \
 		ca-certificates \
 		libaio \
@@ -61,13 +61,13 @@ RUN export PPHPV='7.3.24' \
 		php-cgi \
 		php-pspell \
 		php-devel \
-	&& mkdir -p /opt/oracle/instantclient_19_6 \
-	&& unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
-	&& unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+    && mkdir -p /opt/oracle/instantclient_19_6 \
+    && unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+    && unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
 	&& unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
-	&& echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
-	&& ldconfig \
-	&& yum -y install php-oci8 \
+    && echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
+    && ldconfig \
+    && yum -y install php-oci8 \
     && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     && yum remove -y nodejs npm \
     && yum install -y nodejs \
@@ -79,9 +79,9 @@ RUN export PPHPV='7.3.24' \
     && rm -rf /tmp/* \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-	&& /usr/bin/pecl upgrade timezonedb \
-	&& echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
-	&& echo -e "\nextension=timezonedb.so" >> /etc/php.d/70-timezonedb.ini \
+    && /usr/bin/pecl upgrade timezonedb \
+    && echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
+    && echo -e "\nextension=timezonedb.so" >> /etc/php.d/70-timezonedb.ini \
     && /usr/bin/php --version \
     && cd /opt/tideways-5.2.4 \
     && bash install.sh \ 
