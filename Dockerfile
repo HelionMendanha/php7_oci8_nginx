@@ -33,6 +33,8 @@ RUN export PPHPV='7.3.24' \
 		php-json \
 		php-mbstring \
 		php-mysqlnd \
+		php-interbase \
+		php-mongodb \
 		php-xml \
 		php-ldap \
 		php-xmlrpc \
@@ -41,7 +43,9 @@ RUN export PPHPV='7.3.24' \
 		php-tidy \
 		php-mhash \
 		php-shmop \
+		php-bcmath \
 		php-zlib \
+		php-zip \
 		php-iconv \
 		php-mysqli \
 		php-pdo \
@@ -75,7 +79,9 @@ RUN export PPHPV='7.3.24' \
     && rm -rf /tmp/* \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-    && /usr/bin/pecl upgrade timezonedb \
+	&& /usr/bin/pecl upgrade timezonedb \
+	&& echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
+	&& echo -e "\nextension=timezonedb.so" >> /etc/php.d/70-timezonedb.ini \
     && /usr/bin/php --version \
     && cd /opt/tideways-5.2.4 \
     && bash install.sh \ 
