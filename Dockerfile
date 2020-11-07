@@ -34,26 +34,49 @@ RUN export PPHPV='7.3.24' \
 		php-mbstring \
 		php-mysqlnd \
 		php-xml \
+		php-ldap \
 		php-xmlrpc \
+		php-pear \
+		php-curl \
+		php-tidy \
+		php-mhash \
+		php-shmop \
+		php-zlib \
+		php-iconv \
+		php-mysqli \
+		php-pdo \
+		php-sockets \
+		php-soap \
+		php-openssl \
+		php-pgsql \
+		php-libxml \
+		php-sysvmsg \
+		php-sysvsem \
+		php-sysvshm \
+		php-libxml \
+		php-cgi \
+		php-pspell \
+		php-devel \
 	&& mkdir -p /opt/oracle/instantclient_19_6 \
 	&& unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
 	&& unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
 	&& unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
 	&& echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
 	&& ldconfig \
+	&& yum install php-oci8 \
     && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     && yum remove -y nodejs npm \
     && yum install -y nodejs \
-    && /usr/local/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && /usr/local/bin/php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && /usr/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && /usr/bin/php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm -rf composer-setup.php \
     && yum clean all \
     && rm -rf /opt/*.zip \
     && rm -rf /tmp/* \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-    && /usr/local/bin/php upgrade timezonedb \
-    && /usr/local/bin/php --version \
+    && /usr/bin/pecl upgrade timezonedb \
+    && /usr/bin/php --version \
     && cd /opt/tideways-5.2.4 \
     && bash install.sh \ 
     && cd /opt/tideways-daemon_1.6.16 \
@@ -83,7 +106,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.23 . &
+#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.24 . &
 #docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.23
 #docker exec -it AppPhp7 bash
 #docker run --rm -it centos:7.8.2003 bash
