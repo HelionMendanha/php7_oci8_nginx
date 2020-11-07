@@ -16,7 +16,7 @@ ADD files/tideways-daemon-latest.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Pacotes
-RUN export PPHPV='7.3.23' \
+RUN export PPHPV='7.3.24' \
 	&& export PREFIX='/etc' \
 	&& yum -y install epel-release install http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
         && yum -y update \
@@ -28,7 +28,7 @@ RUN export PPHPV='7.3.23' \
 		unzip \
 		supervisor \
 	&& yum-config-manager --enable remi-php73 \
-	&& yum install php-fpm \
+	&& yum -y install php-fpm \
 		php-gd \
 		php-json \
 		php-mbstring \
@@ -50,7 +50,6 @@ RUN export PPHPV='7.3.23' \
     && yum clean all \
     && rm -rf /opt/*.zip \
     && rm -rf /tmp/* \
-    && rm -rf /opt/php-$PPHPV /opt/php-$PPHPV.tar.gz  \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
     && /usr/local/bin/php upgrade timezonedb \
