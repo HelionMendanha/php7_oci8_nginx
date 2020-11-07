@@ -63,7 +63,7 @@ RUN export PPHPV='7.3.24' \
 	&& unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
 	&& echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
 	&& ldconfig \
-	&& yum install php-oci8 \
+	&& yum -y install php-oci8 \
     && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
     && yum remove -y nodejs npm \
     && yum install -y nodejs \
