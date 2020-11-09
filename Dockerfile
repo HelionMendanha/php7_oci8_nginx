@@ -36,6 +36,9 @@ RUN export PPHPV='7.3.24' \
       php-mysqlnd \
       php-interbase \
       php-mongodb \
+      php-intl \
+      php-apcu \
+      php-sodium \
       php-xml \
       php-ldap \
       php-xmlrpc \
@@ -82,12 +85,13 @@ RUN export PPHPV='7.3.24' \
    && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
    && /usr/bin/pecl upgrade timezonedb \
    && echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
-   && echo -e "\nextension=timezonedb.so" >> /etc/php.d/70-timezonedb.ini \
+   && echo -e "\nextension=timezonedb.so\n" >> /etc/php.d/70-timezonedb.ini \
    && /usr/bin/php --version \
    && cd /opt/tideways-5.2.4 \
    && bash install.sh \ 
    && cd /opt/tideways-daemon_1.6.16 \
    && bash install.sh \
+   && rm -rf /opt/tideways-* \
    && ping google.com -c 4 \
    && date
    
@@ -106,7 +110,7 @@ ENV BACKEND7 10.62.0.2:7107
 ENV BACKEND8 10.62.0.2:7108
 ENV BACKEND9 10.62.0.2:7109
 
-WORKDIR /var/www/html
+WORKDIR /usr/share/nginx/html
 
 EXPOSE 80 443
 
