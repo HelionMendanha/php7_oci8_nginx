@@ -2,7 +2,7 @@ FROM centos:7.8.2003
 
 MAINTAINER helion@mendanha.com.br
 
-LABEL name="Nginx + PHP 7.3.24 + pdo_oci no CentOS" \
+LABEL name="Nginx + PHP 5.6.40 + pdo_oci no CentOS" \
    vendor="CentOS" \
    license="GPLv2" \
    build-date="20201109"
@@ -16,9 +16,7 @@ ADD files/tideways-daemon-latest.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Pacotes
-RUN export PPHPV='7.3.24' \
-   && export PREFIX='/etc' \
-   && yum -y install epel-release \
+RUN yum -y install epel-release \
       http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
    && yum -y update \
    && yum -y upgrade \
@@ -28,7 +26,7 @@ RUN export PPHPV='7.3.24' \
       nginx \
       unzip \
       supervisor \
-   && yum-config-manager --enable remi-php73 \
+   && yum-config-manager --enable remi-php56 \
    && yum -y install php-fpm \
       php-gd \
       php-json \
@@ -117,7 +115,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.24 . &
-#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.23
+#nohup docker build -t helionmendanha/php7_oci8_nginx:5.6.40 . &
+#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:5.6.40
 #docker exec -it AppPhp7 bash
 #docker run --rm -it centos:7.8.2003 bash
