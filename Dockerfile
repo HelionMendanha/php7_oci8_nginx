@@ -10,9 +10,6 @@ LABEL name="Nginx + PHP 5.6.40 + pdo_oci no CentOS" \
 ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip /opt
-
-ADD files/tideways-php-latest.tar.gz /opt
-ADD files/tideways-daemon-latest.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Pacotes
@@ -81,15 +78,7 @@ RUN yum -y install epel-release \
    && rm -rf /tmp/* \
    && rm /etc/localtime \
    && ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
-   && /usr/bin/pecl upgrade timezonedb \
-   && echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
-   && echo -e "\nextension=timezonedb.so\n" >> /etc/php.d/70-timezonedb.ini \
    && /usr/bin/php --version \
-   && cd /opt/tideways-5.2.4 \
-   && bash install.sh \ 
-   && cd /opt/tideways-daemon_1.6.16 \
-   && bash install.sh \
-   && rm -rf /opt/tideways-* \
    && ping google.com -c 4 \
    && date
    
