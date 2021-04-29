@@ -1,24 +1,22 @@
-FROM centos:7.8.2003
+FROM centos:centos7.9.2009
 
 MAINTAINER helion@mendanha.com.br
 
-LABEL name="Nginx + PHP 7.3.24 + pdo_oci no CentOS" \
+LABEL name="Nginx + PHP 7.3.28 + pdo_oci no CentOS" \
    vendor="CentOS" \
    license="GPLv2" \
-   build-date="20201109"
+   build-date="20210428"
    
 ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip /opt
 
-ADD files/tideways-php-latest.tar.gz /opt
-ADD files/tideways-daemon-latest.tar.gz /opt
+ADD files/tideways-php-5.3.16-x86_64.tar.gz /opt
+ADD files/tideways-daemon_linux_amd64-1.6.30.tar.gz /opt
 ADD files/php.ini-production.ini /opt
 
 # Pacotes
-RUN export PPHPV='7.3.24' \
-   && export PREFIX='/etc' \
-   && yum -y install epel-release \
+RUN  yum -y install epel-release \
       http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
    && yum -y update \
    && yum -y upgrade \
@@ -87,9 +85,9 @@ RUN export PPHPV='7.3.24' \
    && echo -e "; Enable timezonedb extension module" > /etc/php.d/70-timezonedb.ini \
    && echo -e "\nextension=timezonedb.so\n" >> /etc/php.d/70-timezonedb.ini \
    && /usr/bin/php --version \
-   && cd /opt/tideways-5.2.4 \
+   && cd /opt/tideways-5.3.16 \
    && bash install.sh \ 
-   && cd /opt/tideways-daemon_1.6.16 \
+   && cd /opt/tideways-daemon_1.6.30 \
    && bash install.sh \
    && rm -rf /opt/tideways-* \
    && ping google.com -c 4 \
@@ -117,7 +115,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.24 . &
-#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.23
+#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.28 . &
+#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.28
 #docker exec -it AppPhp7 bash
 #docker run --rm -it centos:7.8.2003 bash
