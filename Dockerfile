@@ -1,4 +1,5 @@
-FROM centos:centos7.9.2009
+FROM centos:7.8.2003
+#FROM centos:7.9.2009
 
 MAINTAINER helion@mendanha.com.br
 
