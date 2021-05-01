@@ -1,12 +1,12 @@
-FROM centos:7.8.2003
-#FROM centos:7.9.2009
+FROM centos:7.9.2009
+#FROM centos:7.8.2003
 
 MAINTAINER helion@mendanha.com.br
 
 LABEL name="Nginx + PHP 7.3.28 + pdo_oci no CentOS" \
    vendor="CentOS" \
    license="GPLv2" \
-   build-date="20210428"
+   build-date="20210501"
    
 ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
 ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
@@ -68,8 +68,11 @@ RUN  yum -y install epel-release \
    && unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
    && unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
    && unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
-   && echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle.conf \
+   && ls -lart /opt/oracle \
+   && du -hs /opt/oracle/instantclient_19_6 \
+   && echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle-instantclient.conf \
    && ldconfig \
+   && export LD_LIBRARY_PATH=/opt/oracle/instantclient_19_6:$LD_LIBRARY_PATH \
    && yum -y install php-oci8 \
    && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
    && yum remove -y nodejs npm \
@@ -119,4 +122,4 @@ CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 #nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.28 . &
 #docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.28
 #docker exec -it AppPhp7 bash
-#docker run --rm -it centos:7.8.2003 bash
+#docker run --rm -it centos:7.9.2009 bash
