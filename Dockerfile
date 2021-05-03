@@ -8,9 +8,9 @@ LABEL name="Nginx + PHP 7.3.28 + pdo_oci no CentOS" \
    license="GPLv2" \
    build-date="20210501"
    
-ADD files/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip /opt
-ADD files/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip /opt
-ADD files/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip /opt
+ADD files/instantclient-basic-linux.x64-21.1.0.0.0dbru.zip /opt
+ADD files/instantclient-sdk-linux.x64-21.1.0.0.0dbru.zip /opt
+ADD files/instantclient-sqlplus-linux.x64-21.1.0.0.0dbru.zip /opt
 
 ADD files/tideways-php-5.3.16-x86_64.tar.gz /opt
 ADD files/tideways-daemon_linux_amd64-1.6.30.tar.gz /opt
@@ -64,15 +64,15 @@ RUN  yum -y install epel-release \
       php-cgi \
       php-pspell \
       php-devel \
-   && mkdir -p /opt/oracle/instantclient_19_6 \
-   && unzip /opt/instantclient-basic-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
-   && unzip /opt/instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
-   && unzip /opt/instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip -d /opt/oracle \
+   && mkdir -p /opt/oracle/instantclient_21_1 \
+   && unzip /opt/instantclient-basic-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
+   && unzip /opt/instantclient-sdk-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
+   && unzip /opt/instantclient-sqlplus-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
    && ls -lart /opt/oracle \
-   && du -hs /opt/oracle/instantclient_19_6 \
-   && echo "/opt/oracle/instantclient_19_6" > /etc/ld.so.conf.d/oracle-instantclient.conf \
+   && du -hs /opt/oracle/instantclient_21_1 \
+   && echo "/opt/oracle/instantclient_21_1" > /etc/ld.so.conf.d/oracle-instantclient.conf \
    && ldconfig \
-   && export LD_LIBRARY_PATH=/opt/oracle/instantclient_19_6:$LD_LIBRARY_PATH \
+   && echo $LD_LIBRARY_PATH \
    && yum -y install php-oci8 \
    && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
    && yum remove -y nodejs npm \
@@ -101,7 +101,7 @@ ADD files/nginx.conf /etc/nginx/nginx.conf
 ADD files/index.php /usr/share/nginx/html
 ADD files/supervisord.conf /etc/supervisord.conf
 
-ENV ORACLE_HOME /opt/oracle/instantclient_12_2
+ENV ORACLE_HOME /opt/oracle/instantclient_21_1
 ENV BACKEND1 10.62.0.2:7101
 ENV BACKEND2 10.62.0.2:7102
 ENV BACKEND3 10.62.0.2:7103
