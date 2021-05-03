@@ -1,16 +1,15 @@
 FROM centos:7.9.2009
-#FROM centos:7.8.2003
 
 MAINTAINER helion@mendanha.com.br
 
 LABEL name="Nginx + PHP 7.3.28 + pdo_oci no CentOS" \
    vendor="CentOS" \
    license="GPLv2" \
-   build-date="20210501"
+   build-date="20210503"
    
-ADD files/instantclient-basic-linux.x64-21.1.0.0.0dbru.zip /opt
-ADD files/instantclient-sdk-linux.x64-21.1.0.0.0dbru.zip /opt
-ADD files/instantclient-sqlplus-linux.x64-21.1.0.0.0dbru.zip /opt
+ADD files/instantclient-basic-linux.x64-21.1.0.0.0.zip /opt
+ADD files/instantclient-sdk-linux.x64-21.1.0.0.0.zip /opt
+ADD files/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip /opt
 
 ADD files/tideways-php-5.3.16-x86_64.tar.gz /opt
 ADD files/tideways-daemon_linux_amd64-1.6.30.tar.gz /opt
