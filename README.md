@@ -5,9 +5,9 @@ Dokerfile da criação de imagem docker com php e drivers (oci8/pdo_oci)
 Dependências / Arquivos
 *********
 << Baixe os seguintes arquivos do site da Oracle >>
--  `instantclient-basic-linux.x64-19.6.0.0.0dbru.zip`
--  `instantclient-sdk-linux.x64-19.6.0.0.0dbru.zip`
--  `instantclient-sqlplus-linux.x64-19.6.0.0.0dbru.zip`
+-  `instantclient-basic-linux.x64-21.1.0.0.0.zip`
+-  `instantclient-sdk-linux.x64-21.1.0.0.0.zip`
+-  `instantclient-sqlplus-linux.x64-21.1.0.0.0.zip`
 
 *********
 Gerando Build
