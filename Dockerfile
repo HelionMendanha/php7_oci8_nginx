@@ -64,9 +64,9 @@ RUN  yum -y install epel-release \
       php-pspell \
       php-devel \
    && mkdir -p /opt/oracle/instantclient_21_1 \
-   && unzip /opt/instantclient-basic-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
-   && unzip /opt/instantclient-sdk-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
-   && unzip /opt/instantclient-sqlplus-linux.x64-21.1.0.0.0dbru.zip -d /opt/oracle \
+   && unzip /opt/instantclient-basic-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
+   && unzip /opt/instantclient-sdk-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
+   && unzip /opt/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
    && ls -lart /opt/oracle \
    && du -hs /opt/oracle/instantclient_21_1 \
    && echo "/opt/oracle/instantclient_21_1" > /etc/ld.so.conf.d/oracle-instantclient.conf \
