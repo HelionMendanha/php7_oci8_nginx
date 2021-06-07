@@ -73,7 +73,7 @@ RUN  yum -y install epel-release \
    && ldconfig \
    && echo $LD_LIBRARY_PATH \
    && yum -y install php-oci8 \
-   && curl -sL https://rpm.nodesource.com/setup_12.x | bash - \
+   && curl -sL https://rpm.nodesource.com/setup_14.x | bash - \
    && yum remove -y nodejs npm \
    && yum install -y nodejs \
    && /usr/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
