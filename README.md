@@ -12,4 +12,4 @@ Dependências / Arquivos
 *********
 Gerando Build
 *********
-nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.33 . &
+nohup docker build --no-cache -t helionmendanha/php7_oci8_nginx:7.3.33b . &
