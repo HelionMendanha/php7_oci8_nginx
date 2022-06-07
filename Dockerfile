@@ -2,7 +2,7 @@ FROM centos:7.9.2009
 
 MAINTAINER helion@mendanha.com.br
 
-LABEL name="Nginx + PHP 7.3.29up1 + pdo_oci no CentOS" \
+LABEL name="Nginx + PHP 7.3.33up1 + pdo_oci no CentOS" \
    vendor="CentOS" \
    license="GPLv2" \
    build-date="20220607"
@@ -27,10 +27,14 @@ RUN  yum -y install epel-release \
       ca-certificates \
       libaio \
       nginx \
+      libzip \
+      libzip-devel \
       unzip \
       supervisor \
    && yum-config-manager --enable remi-php73 \
-   && yum -y install php-fpm \
+   && yum -y update \
+   && yum -y install php \
+      php-fpm \
       php-gd \
       php-json \
       php-mbstring \
@@ -124,7 +128,7 @@ EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
 #cd /d/htdocs/svninfra/Prog2019/Dockerfiles/BuildGiss
-#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.29up1 . &
-#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.29up1
+#nohup docker build -t helionmendanha/php7_oci8_nginx:7.3.33up1 . &
+#docker rm AppPhp7;docker run -d -v ./nginx.conf:/etc/nginx/nginx.conf -p 8080:80  --name AppPhp7 helionmendanha/php7_oci8_nginx:7.3.33up1
 #docker exec -it AppPhp7 bash
 #docker run --rm -it centos:7.9.2009 bash
